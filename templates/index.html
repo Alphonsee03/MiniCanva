@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mini Canva Modern</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    rel="stylesheet"/>
+</head>
+
+<body class="bg-[#ff6f61] min-h-screen flex flex-col items-center p-4 font-sans">
+    <div class="container bg-[#f7d44d] rounded-lg shadow-lg mx-auto p-6 max-w-full sm:max-w-md md:max-w-lg lg:max-w-4xl ">
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800"> Mini Canva Modern</h1>
+
+        <form
+            action="/"
+            method="post"
+            enctype="multipart/form-data"
+            class="flex justify-center mb-6" >
+        
+            <input
+            type="file"
+            name="image"
+            required
+            class="hidden"
+            id="uploadInput"
+            onchange="this.form.submit()"
+            />
+            <label
+            for="uploadInput"
+            class="cursor-pointer px-6 py-3 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
+            >
+            <i class="fa fa-upload mr-2"></i> Upload Image
+            </label>
+        </form>
+
+        {% if image_url %}
+
+        <div class="mb-5 text-center max-w-[90vw] max-h-[80vh] overflow-auto whitespace-nowrap mx-auto">
+            <img
+            id="mainImage"
+            src="{{ url_for('uploaded_file', filename=image_url.split('/')[-1]) }}"
+            alt="Uploaded Image"
+            class="mx-auto object-contain rounded-md max-w-full h-auto"/>
+            {% if image_info %}
+            <div class="image-info text-gray-600 mt-3 flex justify-center space-x-6 text-sm" >
+                <div><strong>Lebar:</strong> {{ image_info.width }} px</div>
+                <div><strong>Panjang:</strong> {{ image_info.height }} px</div>
+                <div><strong>Mode:</strong> {{ image_info.mode }}</div>
+                <div>
+                    <strong>Piksel Tengah:</strong> {{ image_info.middle_pixel }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+
+        <div class="flex flex-wrap gap-4 justify-center mb-6">
+
+            <form action="/grayscale" method="post" class="inline">
+                <input type="hidden" name="filename" value="{{ image_url }}" />
+                <button
+                    type="submit"
+                    class="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition flex items-center justify-center space-x-2">
+                    <i class="fa fa-moon"></i>
+                    <span>Grayscale</span>
+                </button>
+            </form>
+
+            <form action="/binary" method="post" class="inline">
+                <input type="hidden" name="filename" value="{{ image_url }}" />
+                <button
+                    type="submit"
+                    class="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition flex items-center justify-center space-x-2">
+                    <i class="fa fa-adjust"></i>
+                    <span>Binary</span>
+                </button>
+            <form>
+
+            <form action="/negative" method="post" class="inline">
+                <input type="hidden" name="filename" value="{{ image_url }}" />
+                <button
+                    type="submit"
+                    class="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition flex items-center justify-center space-x-2">
+                    <i class="fa fa-inverse"></i>
+                    <span>Negative</span>
+                </button>
+            </form>
+
+            <form action="/brighten" method="post" class="inline">
+                <input type="hidden" name="filename" value="{{ image_url }}" />
+                <button
+                    type="submit"
+                    class="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition flex items-center justify-center space-x-2">
+                    <i class="fa fa-sun"></i>
+                    <span>Brighten</span>
+                </button>
+            </form>
+
+
+
+            <form
+                action="/scale"
+                method="post"
+                class="inline flex items-center space-x-2">
+                <input type="hidden" name="filename" value="{{ image_url }}" />
+                <label class="text-gray-700 font-medium">Scale:</label>
+                <input
+                    type="number"
+                    step="0.1"
+                    min="0.1"
+                    name="scale"
+                    value="1.5"
+                    class="w-20 rounded border-gray-300 focus:ring focus:ring-blue-400 focus:outline-none p-1 text-center"
+                    title="Scale Factor"
+                />
+                <button
+                    type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
+                    title="Scale Image">
+                    <i class="fa fa-search-plus"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-6 mb-6">
+
+            <form
+                action="/translate"
+                method="post"
+                class="flex items-center space-x-2">
+
+                <input type="hidden" name="filename" value="{{ image_url }}" />
+                <label for="tx" class="text-gray-700 font-medium">Translate X:</label>
+                <input
+                    type="number"
+                    name="tx"
+                    id="tx"
+                    value="10"
+                    class="w-20 rounded border-gray-300 p-1 focus:ring focus:ring-blue-400 focus:outline-none text-center"
+                />
+                <label for="ty" class="text-gray-700 font-medium">Y:</label>
+                <input
+                    type="number"
+                    name="ty"
+                    id="ty"
+                    value="10"
+                    class="w-20 rounded border-gray-300 p-1 focus:ring focus:ring-blue-400 focus:outline-none text-center"
+                />
+                <button
+                    type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
+                    title="Translate Image"
+                >
+                    <i class="fa fa-arrows-alt"></i>
+                </button>
+            </form>
+
+            <form
+                action="/rotate"
+                method="post"
+                class="flex items-center space-x-2"
+                >
+                <input type="hidden" name="filename" value="{{ image_url }}" />
+                <label for="angle" class="text-gray-700 font-medium"
+                    >Rotate (°):</label
+                >
+                <input
+                    type="number"
+                    name="angle"
+                    id="angle"
+                    value="45"
+                    class="w-20 rounded border-gray-300 p-1 focus:ring focus:ring-blue-400 focus:outline-none text-center"
+                />
+                <button
+                    type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
+                    title="Rotate Image"
+                >
+                    <i class="fa fa-rotate-right"></i>
+                </button>
+            </form>
+
+            
+            <form action="/flip" method="post" class="flex items-center space-x-2">
+                <input type="hidden" name="filename" value="{{ image_url }}" />
+                <select
+                    name="mode"
+                    class="rounded border-gray-300 p-1 focus:ring focus:ring-blue-400 focus:outline-none"
+                    title="Flip Mode"
+                >
+                    <option value="horizontal">⟷ Flip Horizontal</option>
+                    <option value="vertical">⟷ Flip Vertical</option>
+                </select>
+                <button
+                    type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
+                    title="Flip Image"
+                >
+                    <i class="fa fa-arrows-alt-h"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4 mb-6">
+            <form action="/histogram" method="post" class="inline">
+                <input type="hidden" name="filename" value="{{ image_url }}" />
+                <button
+                    class="px-5 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 transition"
+                    type="submit"
+                >
+                    Show Histogram
+                </button>
+                </form>
+
+                <form action="/frequency" method="post" class="inline">
+                <input type="hidden" name="filename" value="{{ image_url }}" />
+                <button
+                    class="px-5 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 transition"
+                    type="submit"
+                >
+                    Show Frequency Spectrum
+                </button>
+            </form>
+        </div>
+
+        {% if histogram_url %}
+        <div class="text-center mb-6">
+            
+            <button
+            id="hideHistogramBtn"
+            class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition mb-2"
+            >
+            Hide Histogram
+            </button>
+            <div id="histogramContainer" class="mx-auto max-w-full overflow-auto">
+            <h2 class="text-xl font-semibold mb-2">Histogram:</h2>
+            <img
+                src="{{ url_for('uploaded_file', filename=histogram_url) }}"
+                alt="Histogram"
+                class="inline-block max-w-full rounded border border-gray-200 shadow"
+            />
+            </div>
+        </div>
+        <script>
+            document
+            .getElementById("hideHistogramBtn")
+            .addEventListener("click", function () {
+                const container = document.getElementById("histogramContainer");
+                container.style.display = "none";
+                this.style.display = "none";
+            });
+        </script>
+        {% endif %} {% if frequency_url %}
+        <div class="text-center mb-6">
+            
+            <button
+            id="hideFrequencyBtn"
+            class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition mb-2"
+            >
+            Hide Frequency Spectrum
+            </button>
+            <div id="frequencyContainer" class="mx-auto max-w-full overflow-auto">
+            <h2 class="text-xl font-semibold mb-2">Frequency Spectrum:</h2>
+            <img
+                src="{{ url_for('uploaded_file', filename=frequency_url) }}"
+                alt="Frequency Spectrum"
+                class="inline-block max-w-full rounded border border-gray-200 shadow"
+            />
+            </div>
+        </div>
+        <script>
+            document
+            .getElementById("hideFrequencyBtn")
+            .addEventListener("click", function () {
+                const container = document.getElementById("frequencyContainer");
+                container.style.display = "none";
+                this.style.display = "none";
+            });
+        </script>
+        {% endif %} {% endif %}
+    </div>
+</body>
+</html>
