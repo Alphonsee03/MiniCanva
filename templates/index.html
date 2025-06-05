@@ -77,7 +77,7 @@
                     <i class="fa fa-adjust"></i>
                     <span>Binary</span>
                 </button>
-            <form>
+            </form>
 
             <form action="/negative" method="post" class="inline">
                 <input type="hidden" name="filename" value="{{ image_url }}" />
@@ -99,12 +99,7 @@
                 </button>
             </form>
 
-
-
-            <form
-                action="/scale"
-                method="post"
-                class="inline flex items-center space-x-2">
+            <form action="/scale" method="post" class="inline flex items-center space-x-2">
                 <input type="hidden" name="filename" value="{{ image_url }}" />
                 <label class="text-gray-700 font-medium">Scale:</label>
                 <input
@@ -114,16 +109,16 @@
                     name="scale"
                     value="1.5"
                     class="w-20 rounded border-gray-300 focus:ring focus:ring-blue-400 focus:outline-none p-1 text-center"
-                    title="Scale Factor"
                 />
                 <button
                     type="submit"
                     class="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
-                    title="Scale Image">
+                >
                     <i class="fa fa-search-plus"></i>
                 </button>
             </form>
         </div>
+
 
         <div class="flex flex-wrap justify-center gap-6 mb-6">
 
